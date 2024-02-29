@@ -1,6 +1,8 @@
 from tkinter import *
-from PIL import Image, ImageTk, ImageDraw
+from PIL import Image, ImageTk, ImageDraw, ImageFont
 from urllib.request import urlopen
+
+img_font = ImageFont.load_default(size=50)
 
 # Consider having a global variable for the watermark
 
@@ -8,11 +10,11 @@ def add_watermark():
     img_url = img_route.get()
     user_text = watermark_text.get()
 
-    user_img = Image.open(urlopen(img_url))
-    finished_img = ImageDraw.Draw(user_img)
-    finished_img.text(xy=(0,0), text=user_text, fill="white")
-
-    display_img = ImageTk.PhotoImage(user_img)
+    with Image.open(urlopen(img_url)) as user_img:
+        user_img.resize((500, 500))
+        finished_img = ImageDraw.Draw(user_img)
+        finished_img.text(xy=(0,0), text=user_text, fill="white", font=img_font)
+        display_img = ImageTk.PhotoImage(user_img)
 
     image_label = Label(image=display_img)
     image_label.image = display_img
@@ -21,7 +23,7 @@ def add_watermark():
 # CREATE INTERFACE
 window = Tk()
 window.title("Image Watermarking")
-window.minsize(width=500, height=500)
+window.minsize(width=500, height=300)
 
 # Upload img
 img_route = Entry(width=30)
