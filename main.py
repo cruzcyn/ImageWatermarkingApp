@@ -4,8 +4,6 @@ from urllib.request import urlopen
 
 img_font = ImageFont.load_default(size=50)
 
-# Consider having a global variable for the watermark
-
 def add_watermark():
     img_url = img_route.get()
     user_text = watermark_text.get()
@@ -23,17 +21,22 @@ def add_watermark():
 # CREATE INTERFACE
 window = Tk()
 window.title("Image Watermarking")
-window.minsize(width=500, height=300)
+window.minsize(width=500, height=200)
+window.config(padx=30, pady=30)
 
 # Upload img
-img_route = Entry(width=30)
-img_route.insert(END, string="URL of your image")
-img_route.grid(row=0, column=0)
+img_route_label = Label(text="Paste the URL of your image:")
+img_route_label.grid(row=0, column=0)
+
+img_route = Entry(width=50)
+img_route.grid(row=0, column=1)
 
 # Upload watermark
-watermark_text = Entry(width=30)
-watermark_text.insert(END, string="Type what you want your watermark to say.")
-watermark_text.grid(row=1, column=0)
+watermark_label = Label(text="Enter the text of your watermark:")
+watermark_label.grid(row=1, column=0)
+
+watermark_text = Entry(width=50)
+watermark_text.grid(row=1, column=1)
 
 # Add watermark to image
 convert_img = Button(text="Add your watermark!", command=add_watermark)
